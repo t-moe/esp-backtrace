@@ -76,13 +76,11 @@ fn panic_handler(info: &core::panic::PanicInfo) -> ! {
 
     #[cfg(nightly)]
     {
-        if let Some(message) = info.message() {
-            #[cfg(not(feature = "defmt"))]
-            println!("{}", message);
+        #[cfg(not(feature = "defmt"))]
+        println!("{}", &info.message());
 
-            #[cfg(feature = "defmt")]
-            println!("{}", defmt::Display2Format(message));
-        }
+        #[cfg(feature = "defmt")]
+        println!("{}", defmt::Display2Format(&info.message()));
     }
 
     println!("");
